@@ -29,9 +29,13 @@ public class Biotopo {
     @Column(name = "imagen_url")
     private String urlImagen;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "id_continente")
     private Continente continente;
+
+    @ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name = "id_tipo_agua" )
+    private TipoAgua tipoAgua;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
