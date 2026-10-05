@@ -1,6 +1,7 @@
 package es.safareyes.aquarium;
 
 
+import es.safareyes.aquarium.dtos.InformeOrganismos;
 import es.safareyes.aquarium.modelos.Especie;
 import es.safareyes.aquarium.modelos.catalogos.Continente;
 import es.safareyes.aquarium.repositorios.IContinenteRepository;
@@ -34,7 +35,7 @@ public class TestRepositorioContinente {
     @Test
     void consultarEspecies() {
 
-        List<Especie> todos = especieRepository.buscarEspeciePorNombreTipoAgua("Agua dulce");
+        List<InformeOrganismos> todos = especieRepository.numeroDeEspeciesPorOrganismo();
 
     }
 }
