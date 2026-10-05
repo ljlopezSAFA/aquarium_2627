@@ -20,7 +20,7 @@ public interface IEspecieRepository extends JpaRepository<Especie,Integer> {
      * @param nombre
      * @return
      */
-    @Query("select e from Especie e where e.tipoAgua.nombre = :nombreAgua  ")
+    @Query("select e from Especie e where e.tipoAgua.nombre = :nombreAgua ")
     List<Especie> buscarEspeciePorNombreTipoAgua(@Param("nombreAgua") String nombre);
 
 

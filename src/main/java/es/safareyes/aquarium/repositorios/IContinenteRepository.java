@@ -29,5 +29,4 @@ public interface IContinenteRepository extends JpaRepository<Continente, Integer
 
 
 
-
 }
