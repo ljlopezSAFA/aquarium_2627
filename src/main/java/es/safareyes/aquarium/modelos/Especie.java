@@ -107,7 +107,7 @@ public abstract class Especie {
     @OneToMany(mappedBy = "especie")
     private List<EspecieNombreAlternativo> nombresAlternativos = new ArrayList<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "especie_biotopo",
             joinColumns = @JoinColumn(name = "id_especie"),
             inverseJoinColumns = @JoinColumn(name = "id_biotopo"))

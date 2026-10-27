@@ -2,10 +2,8 @@ package es.safareyes.aquarium.modelos;
 
 import es.safareyes.aquarium.modelos.catalogos.TipoOrganismo;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+
 import java.util.*;
 
 @Entity
@@ -14,6 +12,7 @@ import java.util.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class Familia {
 
     @Id

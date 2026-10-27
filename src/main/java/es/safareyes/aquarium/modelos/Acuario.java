@@ -104,11 +104,11 @@ public class Acuario {
     private List<AcuarioHabitante> habitantes = new ArrayList<>();
 
 
-
-    //Int (0,1,2,3)
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "tipo_cristal")
-    private TipoCristal tipoCristal;
+//
+//    //Int (0,1,2,3)
+//    @Enumerated(EnumType.ORDINAL)
+//    @Column(name = "tipo_cristal")
+//    private TipoCristal tipoCristal;
 
 
 }
