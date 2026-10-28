@@ -1,7 +1,5 @@
 package es.safareyes.aquarium.dtos;
 
-
-
 public record EspecieDTO (
     Integer id,
     String nombreComun,

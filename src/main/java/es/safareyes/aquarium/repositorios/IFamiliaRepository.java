@@ -11,6 +11,7 @@ import java.util.*;
 @Repository
 public interface IFamiliaRepository extends JpaRepository<Familia,Integer> {
 
+    Boolean existsByNombreIgnoreCase(String nombre);
 
 
     @Query(nativeQuery = true, value = "select f.nombre as familia, count(e.*) as especies  from especie e \n" +

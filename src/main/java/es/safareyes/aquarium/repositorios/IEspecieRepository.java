@@ -19,13 +19,14 @@ public interface IEspecieRepository extends JpaRepository<Especie,Integer> {
     @Query("""
                 SELECT e FROM Especie e
                     JOIN FETCH e.familia
+                                JOIN FETCH e.tipoAgua
             """)
     List<Especie> buscarConDetalleFamilia();
 
 
 
-//    @EntityGraph(attributePaths = { "familia" })
-//    List<Especie> findAll();
+    @EntityGraph(attributePaths = { "familia", "tipoAgua" })
+    List<Especie> findAll();
 
 
 
