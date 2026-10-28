@@ -4,6 +4,7 @@ package es.safareyes.aquarium.repositorios;
 import es.safareyes.aquarium.dtos.InformeOrganismos;
 import es.safareyes.aquarium.modelos.Especie;
 import es.safareyes.aquarium.modelos.catalogos.Continente;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,6 +13,21 @@ import java.util.*;
 
 @Repository
 public interface IEspecieRepository extends JpaRepository<Especie,Integer> {
+
+
+
+    @Query("""
+                SELECT e FROM Especie e
+                    JOIN FETCH e.familia
+            """)
+    List<Especie> buscarConDetalleFamilia();
+
+
+
+//    @EntityGraph(attributePaths = { "familia" })
+//    List<Especie> findAll();
+
+
 
 
     /**

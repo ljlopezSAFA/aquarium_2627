@@ -6,14 +6,10 @@ import es.safareyes.aquarium.modelos.Especie;
 import org.mapstruct.Mapper;
 import java.util.*;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {FamiliaMapper.class})
 public interface EspecieMapper {
 
     EspecieDTO toDto(Especie especie);
-
     List<EspecieDTO> toDto(List<Especie> especie);
-
-
-
 
 }

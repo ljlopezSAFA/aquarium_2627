@@ -6,6 +6,7 @@ public record EspecieDTO (
     Integer id,
     String nombreComun,
     String nombreCientifico,
-    String descripcion
+    String descripcion,
+    FamiliaDTO familia
 ){}
 

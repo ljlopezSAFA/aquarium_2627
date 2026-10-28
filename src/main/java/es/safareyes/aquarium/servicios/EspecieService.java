@@ -17,7 +17,7 @@ public class EspecieService {
 
 
     public List<EspecieDTO> consultarTodas(){
-        return especieMapper.toDto(especieRepository.findAll());
+        return especieMapper.toDto(especieRepository.buscarConDetalleFamilia());
     }
 
 }
