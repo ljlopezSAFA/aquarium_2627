@@ -5,6 +5,7 @@ public record EspecieDTO (
     String nombreComun,
     String nombreCientifico,
     String descripcion,
+    String dificultad,
     FamiliaDTO familia
 ){}
 

@@ -28,4 +28,13 @@ public class EspecieService implements IEspecieService {
     }
 
 
+    public List<EspecieDTO> filtrar(String nombre,
+                                    String familia,
+                                    String dificultad){
+        return especieMapper.toDto(especieRepository
+                .buscarConFiltros(nombre, familia, dificultad));
+
+    }
+
+
 }

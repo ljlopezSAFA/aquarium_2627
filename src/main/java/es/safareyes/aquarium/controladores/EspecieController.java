@@ -6,6 +6,7 @@ import es.safareyes.aquarium.servicios.EspecieService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -24,9 +25,13 @@ public class EspecieController {
         return especieService.consultarTodas();
     }
 
-    @GetMapping("/id")
-    public List<EspecieDTO> consultarPorId(){
-        return especieService.consultarTodas();
+    @GetMapping("/filtrar")
+    public List<EspecieDTO> consultarConFiltros(
+            @RequestParam(required = false)  String nombre,
+            @RequestParam(required = false) String familia,
+            @RequestParam(required = false) String dificultad){
+        return especieService.filtrar(nombre, familia, dificultad);
+
     }
 
 
