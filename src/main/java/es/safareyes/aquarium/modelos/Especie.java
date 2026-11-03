@@ -90,15 +90,15 @@ public abstract class Especie {
     private String fuentes;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creado_por")
+    @JoinColumn(name = "creado_por", nullable = true)
     private Usuario creadoPor;
 
     @CreatedDate
-    @Column(name = "creado_en", nullable = false, updatable = false)
+    @Column(name = "creado_en", nullable = true, updatable = false)
     private LocalDateTime creadoEn;
 
     @LastModifiedDate
-    @Column(name = "actualizado_en", nullable = false)
+    @Column(name = "actualizado_en", nullable = true)
     private LocalDateTime actualizadoEn;
 
     @OneToMany(mappedBy = "especie")

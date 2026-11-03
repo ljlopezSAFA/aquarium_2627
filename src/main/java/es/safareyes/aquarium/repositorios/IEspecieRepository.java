@@ -4,6 +4,8 @@ package es.safareyes.aquarium.repositorios;
 import es.safareyes.aquarium.dtos.InformeOrganismos;
 import es.safareyes.aquarium.modelos.Especie;
 import es.safareyes.aquarium.modelos.catalogos.Continente;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +22,7 @@ public interface IEspecieRepository extends JpaRepository<Especie,Integer> {
                 SELECT e FROM Especie e
                     JOIN FETCH e.familia
                     JOIN FETCH e.dificultad
+                    join fetch  e.biotopos
             """)
     List<Especie> buscarConDetalleFamilia();
 
@@ -76,12 +79,7 @@ public interface IEspecieRepository extends JpaRepository<Especie,Integer> {
     List<InformeOrganismos> numeroDeEspeciesPorOrganismo();
 
 
+    boolean existsByNombreCientifico(@NotBlank(message = "El nombre científico no puede estar vacío") @Size(max = 150, message = "El nombre científico no debe superar los 150 caracteres") String s);
 
-
-
-
-
-
-
-
+    boolean existsBySlug(@NotBlank(message = "El slug no puede estar vacío") @Size(max = 160, message = "El slug no debe superar los 160 caracteres") String slug);
 }

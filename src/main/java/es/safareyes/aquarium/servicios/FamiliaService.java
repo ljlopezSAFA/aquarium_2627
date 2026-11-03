@@ -1,7 +1,7 @@
 package es.safareyes.aquarium.servicios;
 
-import es.safareyes.aquarium.ElementoNoEncontrado;
-import es.safareyes.aquarium.conversores.ElementoDuplicado;
+import es.safareyes.aquarium.excepciones.ElementoNoEncontrado;
+import es.safareyes.aquarium.excepciones.ElementoDuplicado;
 import es.safareyes.aquarium.conversores.FamiliaMapper;
 import es.safareyes.aquarium.dtos.CrearFamiliaDTO;
 import es.safareyes.aquarium.dtos.FamiliaDTO;
@@ -12,8 +12,6 @@ import es.safareyes.aquarium.repositorios.ITipoOrganismoRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

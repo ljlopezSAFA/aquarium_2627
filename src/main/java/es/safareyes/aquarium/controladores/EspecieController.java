@@ -1,13 +1,12 @@
 package es.safareyes.aquarium.controladores;
 
 
+import es.safareyes.aquarium.dtos.CrearEspeciePezDTO;
 import es.safareyes.aquarium.dtos.EspecieDTO;
 import es.safareyes.aquarium.servicios.EspecieService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,7 +30,12 @@ public class EspecieController {
             @RequestParam(required = false) String familia,
             @RequestParam(required = false) String dificultad){
         return especieService.filtrar(nombre, familia, dificultad);
+    }
 
+
+    @PostMapping("/crear")
+    public void crearEspecie(@Valid  @RequestBody CrearEspeciePezDTO json){
+        especieService.crearEspeciePez(json);
     }
 
 
