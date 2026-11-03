@@ -32,7 +32,6 @@ public class EspecieController {
         return especieService.filtrar(nombre, familia, dificultad);
     }
 
-
     @PostMapping("/crear")
     public void crearEspecie(@Valid  @RequestBody CrearEspeciePezDTO json){
         especieService.crearEspeciePez(json);
