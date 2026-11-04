@@ -18,7 +18,6 @@ public class EspecieController {
 
     private EspecieService especieService;
 
-
     @GetMapping("/todas")
     public List<EspecieDTO> consultarEspecies(){
         return especieService.consultarTodas();

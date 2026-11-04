@@ -2,9 +2,11 @@ package es.safareyes.aquarium.repositorios;
 
 
 import es.safareyes.aquarium.dtos.EspeciesPorFamilia;
+import es.safareyes.aquarium.modelos.Especie;
 import es.safareyes.aquarium.modelos.Familia;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.util.*;
 
@@ -18,6 +20,18 @@ public interface IFamiliaRepository extends JpaRepository<Familia,Integer> {
             "join familia f on e.id_familia  = f.id \n" +
             "group by f.nombre")
     List<EspeciesPorFamilia> buscarNumeroEspeciesPorFamilia();
+
+
+    @Query(nativeQuery = true, value = "select * from familia f  where \n" +
+            "( :nombre  is null or nombre = :nombre )\n" +
+            "and \n" +
+            "( :orden is null or orden  = :orden )")
+    List<Familia> filtrarFamilias(String nombre, String orden);
+
+
+
+
+
 
 
 

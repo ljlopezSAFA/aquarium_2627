@@ -1,12 +1,12 @@
 package es.safareyes.aquarium.controladores;
 
 
+import es.safareyes.aquarium.dtos.CrearFamiliaDTO;
 import es.safareyes.aquarium.dtos.FamiliaDTO;
 import es.safareyes.aquarium.servicios.FamiliaService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,6 +20,17 @@ public class FamiliaController {
     @GetMapping
     public List<FamiliaDTO> consultarFamilias(){
         return service.consultarTodas();
+    }
+
+    @GetMapping("/filtrar")
+    public List<FamiliaDTO> filtrarFamilias(@RequestParam(required = false) String nombre,
+                                            @RequestParam(required = false) String orden){
+        return service.filtrar(nombre, orden);
+    }
+
+    @PostMapping("/crear")
+    public void crearFamilia(@Valid @RequestBody CrearFamiliaDTO dto){
+       service.crearFamilia(dto);
     }
 
 

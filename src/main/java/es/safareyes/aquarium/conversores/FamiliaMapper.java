@@ -21,10 +21,19 @@ public interface FamiliaMapper {
     List<FamiliaDTO> toDTO(List<Familia> entity);
 
 
-    @Mapping(target = "id",            ignore = true)
     @Mapping(target = "tipoOrganismo", ignore = true)
-    @Mapping(target = "especies",      ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "especies", ignore = true)
     Familia toEntity(CrearFamiliaDTO dto);
+
+
+
+
+
+//    @Mapping(target = "id",            ignore = true)
+//    @Mapping(target = "tipoOrganismo", ignore = true)
+//    @Mapping(target = "especies",      ignore = true)
+//    Familia toEntity(CrearFamiliaDTO dto);
 
 
 
