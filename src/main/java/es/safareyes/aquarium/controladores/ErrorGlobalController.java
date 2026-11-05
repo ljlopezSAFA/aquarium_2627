@@ -1,6 +1,8 @@
 package es.safareyes.aquarium.controladores;
 
-import es.safareyes.aquarium.excepciones.ElementoNoEncontrado;
+
+import es.safareyes.aquarium.excepciones.ReglaNegocioException;
+import es.safareyes.aquarium.excepciones.RelacionNoEncontrada;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -14,17 +16,23 @@ import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
-public class ErrorController {
+public class ErrorGlobalController {
 
 
-    @ExceptionHandler(ElementoNoEncontrado.class)
-    public ProblemDetail noEncontrado(ElementoNoEncontrado e) {
-        return construir(HttpStatus.NOT_FOUND, "Recurso no encontrado", e.getMessage());
+    @ExceptionHandler(ReglaNegocioException.class)
+    public ProblemDetail reglaNegocia(ReglaNegocioException e) {
+        return construir(HttpStatus.NOT_FOUND, "Regla de negocio no cumplida",
+                e.getMessage());
     }
 
+    @ExceptionHandler(RelacionNoEncontrada.class)
+    public ProblemDetail relacionNoEncantrada(RelacionNoEncontrada e) {
+        return construir(HttpStatus.NOT_FOUND, "Regla de negocio no cumplida",
+                e.getMessage());
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ProblemDetail validacion(MethodArgumentNotValidException e) {
+    public ProblemDetail erroresDTO(MethodArgumentNotValidException e) {
         Map<String, String> errores = new LinkedHashMap<>();
         e.getBindingResult().getFieldErrors()
                 .forEach(error -> errores.put(error.getField(), error.getDefaultMessage()));
