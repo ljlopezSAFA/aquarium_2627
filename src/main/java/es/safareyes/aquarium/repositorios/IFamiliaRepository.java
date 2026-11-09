@@ -31,6 +31,18 @@ public interface IFamiliaRepository extends JpaRepository<Familia,Integer> {
 
 
 
+    @Query("select f from Familia f" +
+            " join fetch f.tipoOrganismo" +
+            " where f.id = :id")
+    Optional<Familia> buscarFamiliaConTipoOrganismo(@Param("id") Integer id);
+
+
+    List<Familia> findAllByActivaTrue();
+
+
+
+
+
 
 
 

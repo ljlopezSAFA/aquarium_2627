@@ -35,6 +35,9 @@ public class Familia {
     @OneToMany(mappedBy = "familia", fetch = FetchType.LAZY)
     private List<Especie> especies;
 
+    @Column(name = "activa")
+    private Boolean activa;
+
 
 
 }

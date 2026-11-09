@@ -34,5 +34,17 @@ public class FamiliaController {
     }
 
 
+    @DeleteMapping("/{id}")
+    public void eliminarFamilia(@PathVariable Integer id){
+        service.eliminarFamilia(id);
+    }
+
+
+    @PatchMapping("/{id}")
+    public void eliminarFamiliaLogico(@PathVariable Integer id){
+        service.eliminarFamiliaLogico(id);
+    }
+
+
 
 }

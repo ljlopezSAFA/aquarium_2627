@@ -22,7 +22,7 @@ public class ErrorGlobalController {
 
     @ExceptionHandler(ReglaNegocioException.class)
     public ProblemDetail reglaNegocia(ReglaNegocioException e) {
-        return construir(HttpStatus.NOT_FOUND, "Regla de negocio no cumplida",
+        return construir(HttpStatus.valueOf(421), "Regla de negocio no cumplida",
                 e.getMessage());
     }
 

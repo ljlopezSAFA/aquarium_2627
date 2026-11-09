@@ -5,6 +5,8 @@ import es.safareyes.aquarium.excepciones.ElementoDuplicado;
 import es.safareyes.aquarium.conversores.FamiliaMapper;
 import es.safareyes.aquarium.dtos.CrearFamiliaDTO;
 import es.safareyes.aquarium.dtos.FamiliaDTO;
+import es.safareyes.aquarium.excepciones.ReglaNegocioException;
+import es.safareyes.aquarium.excepciones.RelacionNoEncontrada;
 import es.safareyes.aquarium.modelos.Familia;
 import es.safareyes.aquarium.modelos.catalogos.TipoOrganismo;
 import es.safareyes.aquarium.repositorios.IFamiliaRepository;
@@ -29,7 +31,7 @@ public class FamiliaService {
 
 
     public List<FamiliaDTO> consultarTodas() {
-        return mapper.toDTO(repository.findAll());
+        return mapper.toDTO(repository.findAllByActivaTrue());
     }
 
 
@@ -68,6 +70,49 @@ public class FamiliaService {
         repository.save(familia);
 
     }
+
+
+    public void eliminarFamilia(Integer id){
+
+        Familia familia = repository.buscarFamiliaConTipoOrganismo(id)
+                .orElseThrow(()-> new ElementoNoEncontrado("Estás intentando " +
+                        "eliminar una familia que no existe"));
+
+
+        TipoOrganismo tipoOrganismo = tipoOrganismoRepository
+                .findById((short) 1).orElse(null);
+
+        //Regla de negocio
+        if(familia.getTipoOrganismo().equals(tipoOrganismo)){
+            throw new ReglaNegocioException("No se puede borrar una familia de PEZ");
+        }else{
+            repository.deleteById(id);
+        }
+
+    }
+
+
+
+    public void eliminarFamiliaLogico(Integer id){
+
+        Familia familia = repository.buscarFamiliaConTipoOrganismo(id)
+                .orElseThrow(()-> new ElementoNoEncontrado("La familia que estás intentando borrar no existe"));
+
+
+        TipoOrganismo tipoOrganismo = tipoOrganismoRepository
+                .findById((short) 1).orElse(null);
+
+        //Regla de negocio
+        if(familia.getTipoOrganismo().equals(tipoOrganismo)){
+            throw new ReglaNegocioException("No se puede borrar una familia de PEZ");
+        }else{
+            familia.setActiva(false);
+            repository.save(familia);
+        }
+
+
+    }
+
 
 
 
