@@ -7,4 +7,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ITipoOrganismoRepository extends JpaRepository<TipoOrganismo,Short> {
+
+
+
+    TipoOrganismo findFirstByCodigo(String codigo);
+
 }

@@ -3,6 +3,7 @@ package es.safareyes.aquarium.servicios;
 import es.safareyes.aquarium.conversores.EspecieMapper;
 import es.safareyes.aquarium.dtos.CrearEspeciePezDTO;
 import es.safareyes.aquarium.dtos.EspecieDTO;
+import es.safareyes.aquarium.excepciones.ElementoNoEncontrado;
 import es.safareyes.aquarium.excepciones.ReglaNegocioException;
 import es.safareyes.aquarium.excepciones.RelacionNoEncontrada;
 import es.safareyes.aquarium.modelos.Biotopo;
@@ -11,6 +12,7 @@ import es.safareyes.aquarium.modelos.EspeciePez;
 import es.safareyes.aquarium.modelos.Familia;
 import es.safareyes.aquarium.modelos.catalogos.TipoOrganismo;
 import es.safareyes.aquarium.repositorios.*;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -152,6 +154,53 @@ public class EspecieService implements IEspecieService {
             throw new ReglaNegocioException(String.format("El %s mínimo (%s) no puede ser mayor que el %s máximo (%s)", campo, min, campo, max));
         }
     }
+
+
+    public void eliminar(Integer id){
+
+        //Validación
+        Especie especie = especieRepository.buscarPorIdConDatosTipoOrganismo(id)
+                .orElseThrow(()-> new ElementoNoEncontrado("No se ha encontrado especie con ese id"));
+
+        TipoOrganismo tipoOrganismoPez = tipoOrganismoRepository.findFirstByCodigo("PEZ");
+
+        if(especie!=null && !especie.getTipoOrganismo().equals(tipoOrganismoPez)){
+            especieRepository.deleteById(id);
+        }else{
+            throw new ReglaNegocioException("No se puede eliminar una especie del tipo PEZ");
+        }
+    }
+
+
+
+    public void cambiarEstadoEspecie(Integer id){
+        Especie especie = especieRepository.findById(id)
+                .orElseThrow(()-> new  ElementoNoEncontrado("No se ha encontrado especie con ese ID"));
+
+        if(especie.getPublicada() != false){
+            especie.setPublicada(false);
+            especieRepository.save(especie);
+
+        }else{
+            throw new ReglaNegocioException("No se puede deshabilitar una especie que ya está desahabilitada");
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 }

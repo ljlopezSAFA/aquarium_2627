@@ -1,6 +1,7 @@
 package es.safareyes.aquarium.controladores;
 
 
+import es.safareyes.aquarium.excepciones.ElementoNoEncontrado;
 import es.safareyes.aquarium.excepciones.ReglaNegocioException;
 import es.safareyes.aquarium.excepciones.RelacionNoEncontrada;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,12 @@ public class ErrorGlobalController {
     @ExceptionHandler(RelacionNoEncontrada.class)
     public ProblemDetail relacionNoEncantrada(RelacionNoEncontrada e) {
         return construir(HttpStatus.NOT_FOUND, "Regla de negocio no cumplida",
+                e.getMessage());
+    }
+
+    @ExceptionHandler(ElementoNoEncontrado.class)
+    public ProblemDetail elementoNoEncontrado(ElementoNoEncontrado e) {
+        return construir(HttpStatus.NOT_FOUND, "Elemento no encontrado",
                 e.getMessage());
     }
 

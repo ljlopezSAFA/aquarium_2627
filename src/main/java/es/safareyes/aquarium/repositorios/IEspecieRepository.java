@@ -82,4 +82,17 @@ public interface IEspecieRepository extends JpaRepository<Especie,Integer> {
     boolean existsByNombreCientifico(@NotBlank(message = "El nombre científico no puede estar vacío") @Size(max = 150, message = "El nombre científico no debe superar los 150 caracteres") String s);
 
     boolean existsBySlug(@NotBlank(message = "El slug no puede estar vacío") @Size(max = 160, message = "El slug no debe superar los 160 caracteres") String slug);
+
+
+
+    @Query("select e from Especie e" +
+            " join fetch  e.tipoOrganismo where " +
+            " e.id = :id")
+    Optional<Especie> buscarPorIdConDatosTipoOrganismo(@Param("id") Integer id);
+
+
+
+
+
+
 }

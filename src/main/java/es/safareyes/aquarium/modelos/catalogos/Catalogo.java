@@ -1,6 +1,7 @@
 package es.safareyes.aquarium.modelos.catalogos;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,7 @@ import lombok.Setter;
 @MappedSuperclass
 @Getter
 @Setter
+@EqualsAndHashCode
 public abstract class Catalogo {
 
     @Id

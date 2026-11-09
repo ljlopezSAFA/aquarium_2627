@@ -36,5 +36,20 @@ public class EspecieController {
         especieService.crearEspeciePez(json);
     }
 
+    @DeleteMapping("/{id}")
+    public void eliminarEspecie(@PathVariable Integer id){
+        especieService.eliminar(id);
+    }
+
+    @PatchMapping("/{id}")
+    public void eliminarEspecieLogico(@PathVariable Integer id){
+        especieService.cambiarEstadoEspecie(id);
+    }
+
+
+
+
+
+
 
 }
