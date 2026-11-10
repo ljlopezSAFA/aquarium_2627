@@ -2,6 +2,7 @@ package es.safareyes.aquarium.servicios;
 
 import es.safareyes.aquarium.conversores.EspecieMapper;
 import es.safareyes.aquarium.dtos.CrearEspeciePezDTO;
+import es.safareyes.aquarium.dtos.EditarEspeciePezDTO;
 import es.safareyes.aquarium.dtos.EspecieDTO;
 import es.safareyes.aquarium.excepciones.ElementoNoEncontrado;
 import es.safareyes.aquarium.excepciones.ReglaNegocioException;
@@ -27,6 +28,7 @@ public class EspecieService implements IEspecieService {
 
     private IEspecieRepository especieRepository;
     private EspecieMapper especieMapper;
+    private IEspeciePezRepository especiePezRepository;
 
     // Repositorios de Relaciones y Catálogos
     private ITipoOrganismoRepository tipoOrganismoRepository;
@@ -156,32 +158,31 @@ public class EspecieService implements IEspecieService {
     }
 
 
-    public void eliminar(Integer id){
+    public void eliminar(Integer id) {
 
         //Validación
         Especie especie = especieRepository.buscarPorIdConDatosTipoOrganismo(id)
-                .orElseThrow(()-> new ElementoNoEncontrado("No se ha encontrado especie con ese id"));
+                .orElseThrow(() -> new ElementoNoEncontrado("No se ha encontrado especie con ese id"));
 
         TipoOrganismo tipoOrganismoPez = tipoOrganismoRepository.findFirstByCodigo("PEZ");
 
-        if(especie!=null && !especie.getTipoOrganismo().equals(tipoOrganismoPez)){
+        if (especie != null && !especie.getTipoOrganismo().equals(tipoOrganismoPez)) {
             especieRepository.deleteById(id);
-        }else{
+        } else {
             throw new ReglaNegocioException("No se puede eliminar una especie del tipo PEZ");
         }
     }
 
 
-
-    public void cambiarEstadoEspecie(Integer id){
+    public void cambiarEstadoEspecie(Integer id) {
         Especie especie = especieRepository.findById(id)
-                .orElseThrow(()-> new  ElementoNoEncontrado("No se ha encontrado especie con ese ID"));
+                .orElseThrow(() -> new ElementoNoEncontrado("No se ha encontrado especie con ese ID"));
 
-        if(especie.getPublicada() != false){
+        if (especie.getPublicada() != false) {
             especie.setPublicada(false);
             especieRepository.save(especie);
 
-        }else{
+        } else {
             throw new ReglaNegocioException("No se puede deshabilitar una especie que ya está desahabilitada");
         }
 
@@ -189,18 +190,95 @@ public class EspecieService implements IEspecieService {
     }
 
 
+    public void editarEspecie(Integer id, EditarEspeciePezDTO dto) {
+
+        EspeciePez pez = especiePezRepository.findById(id)
+                .orElseThrow(() -> new ElementoNoEncontrado("No se encuentra Especie con ese id"));
 
 
+        //Volcar los datos del dto en la entity (Ya existe)
+        especieMapper.actualizar(pez, dto);
 
 
+        // 3. Validar y asignar relaciones OBLIGATORIAS (Especie)
+        if (dto.idTipoOrganismo() != null) {
+            pez.setTipoOrganismo(tipoOrganismoRepository.findById(dto.idTipoOrganismo())
+                    .orElseThrow(() -> new RelacionNoEncontrada("El tipo de organismo indicado no existe")));
+        }
 
 
+        // En BD: DEFAULT 1 (DULCE). Se asigna idTipoAgua o por defecto 1 si viene nulo
+        if (dto.idTipoAgua() != null) {
+            Short idTipoAgua = dto.idTipoAgua() != null ? dto.idTipoAgua() : 1;
+            pez.setTipoAgua(tipoAguaRepository.findById(idTipoAgua)
+                    .orElseThrow(() -> new RelacionNoEncontrada("El tipo de agua indicado no existe")));
+        }
+
+        if(dto.idDificultad()!=null){
+            pez.setDificultad(dificultadRepository.findById(dto.idDificultad())
+                    .orElseThrow(() -> new RelacionNoEncontrada("La dificultad indicada no existe")));
+
+        }
+
+        // 4. Validar y asignar relaciones OBLIGATORIAS (EspeciePez)
+        if(dto.idDieta()!=null){
+            pez.setDieta(dietaRepository.findById(dto.idDieta())
+                    .orElseThrow(() -> new RelacionNoEncontrada("La dieta indicada no existe")));
+        }
+
+        if(dto.idTemperamento()!=null){
+            pez.setTemperamento(temperamentoRepository.findById(dto.idTemperamento())
+                    .orElseThrow(() -> new RelacionNoEncontrada("El temperamento indicado no existe")));
+        }
 
 
+        if(dto.idNivelNado()!=null){
+            pez.setNivelNado(nivelNadoRepository.findById(dto.idNivelNado())
+                    .orElseThrow(() -> new RelacionNoEncontrada("El nivel de nado indicado no existe")));
+        }
 
 
+        // 5. Validar y asignar relaciones OPCIONALES (Especie)
+        if (dto.idFamilia() != null) {
+            pez.setFamilia(familiaRepository.findById(dto.idFamilia())
+                    .orElseThrow(() -> new RelacionNoEncontrada("La familia indicada no existe")));
+        }
+
+        if (dto.idCreadoPor() != null) {
+            pez.setCreadoPor(usuarioRepository.findById(dto.idCreadoPor())
+                    .orElseThrow(() -> new RelacionNoEncontrada("El usuario creador no existe")));
+        }
+
+        if (dto.idsBiotopos() != null && !dto.idsBiotopos().isEmpty()) {
+            List<Biotopo> biotopos = biotopoRepository.findAllById(dto.idsBiotopos());
+            if (biotopos.size() != dto.idsBiotopos().size()) {
+                throw new RelacionNoEncontrada("Uno o varios biotopos indicados no existen");
+            }
+            pez.setBiotopos(biotopos);
+        }
+
+        // 6. Validar y asignar relaciones OPCIONALES (EspeciePez)
+        if (dto.idTipoReproduccion() != null) {
+            pez.setTipoReproduccion(tipoReproduccionRepository.findById(dto.idTipoReproduccion())
+                    .orElseThrow(() -> new RelacionNoEncontrada("El tipo de reproducción indicado no existe")));
+        }
+
+        if (dto.idDificultadReproduccion() != null) {
+            pez.setDificultadReproduccion(dificultadRepository.findById(dto.idDificultadReproduccion())
+                    .orElseThrow(() -> new RelacionNoEncontrada("La dificultad de reproducción indicada no existe")));
+        }
+
+        if (dto.idEstadoConservacion() != null) {
+            pez.setEstadoConservacion(estadoConservacionRepository.findById(dto.idEstadoConservacion())
+                    .orElseThrow(() -> new RelacionNoEncontrada("El estado de conservación indicado no existe")));
+        }
 
 
+        // 7. Persistir en base de datos
+        especieRepository.save(pez);
+
+
+    }
 
 
 }

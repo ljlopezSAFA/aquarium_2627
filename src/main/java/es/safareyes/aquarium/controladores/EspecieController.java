@@ -2,6 +2,7 @@ package es.safareyes.aquarium.controladores;
 
 
 import es.safareyes.aquarium.dtos.CrearEspeciePezDTO;
+import es.safareyes.aquarium.dtos.EditarEspeciePezDTO;
 import es.safareyes.aquarium.dtos.EspecieDTO;
 import es.safareyes.aquarium.servicios.EspecieService;
 import jakarta.validation.Valid;
@@ -47,7 +48,13 @@ public class EspecieController {
     }
 
 
+    @PutMapping("/{id}")
+    public void editarEspecie(@PathVariable Integer id,
+                              @RequestBody EditarEspeciePezDTO dto){
 
+        especieService.editarEspecie(id,dto);
+
+    }
 
 
 

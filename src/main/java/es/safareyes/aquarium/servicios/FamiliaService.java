@@ -1,18 +1,14 @@
 package es.safareyes.aquarium.servicios;
 
-import es.safareyes.aquarium.excepciones.ElementoNoEncontrado;
-import es.safareyes.aquarium.excepciones.ElementoDuplicado;
 import es.safareyes.aquarium.conversores.FamiliaMapper;
 import es.safareyes.aquarium.dtos.CrearFamiliaDTO;
 import es.safareyes.aquarium.dtos.FamiliaDTO;
+import es.safareyes.aquarium.excepciones.ElementoNoEncontrado;
 import es.safareyes.aquarium.excepciones.ReglaNegocioException;
-import es.safareyes.aquarium.excepciones.RelacionNoEncontrada;
 import es.safareyes.aquarium.modelos.Familia;
 import es.safareyes.aquarium.modelos.catalogos.TipoOrganismo;
 import es.safareyes.aquarium.repositorios.IFamiliaRepository;
-import es.safareyes.aquarium.repositorios.ITipoAguaRepository;
 import es.safareyes.aquarium.repositorios.ITipoOrganismoRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
